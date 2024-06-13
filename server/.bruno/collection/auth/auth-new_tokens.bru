@@ -1,0 +1,17 @@
+meta {
+  name: auth-new_tokens
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/auth/new_tokens
+  body: json
+  auth: bearer
+}
+
+body:json {
+  {
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNseGRkOHYyazAwMDB0enA4czVmdjF3ZnEiLCJpYXQiOjE3MTgyODk1NzEsImV4cCI6MTcxODg5NDM3MX0.NaoUWyQv7QUlJ8NTXnS2PLa_RcBzvDTBiy3IjPU6q_8"
+  }
+}
