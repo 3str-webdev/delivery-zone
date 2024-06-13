@@ -1,10 +1,15 @@
 import { faker } from "@faker-js/faker";
-import { BadRequestException, Injectable } from "@nestjs/common";
-import { hash } from "argon2";
-import { PrismaService } from "src/prisma.service";
-import { AuthDto } from "./dto/auth.dto";
+import {
+	BadRequestException,
+	Injectable,
+	NotFoundException,
+	UnauthorizedException,
+} from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { User } from "@prisma/client";
+import { hash, verify } from "argon2";
+import { PrismaService } from "src/prisma.service";
+import { AuthDto } from "./dto/auth.dto";
 
 @Injectable()
 export class AuthService {
@@ -38,12 +43,31 @@ export class AuthService {
 			},
 		});
 
-		const tokens = await this.issueTokens(user.id);
+		return this.returnUserData(user);
+	}
 
-		return {
-			user: this.returnUserFields(user),
-			...tokens,
-		};
+	async login(dto: AuthDto) {
+		const user = await this.validateUser(dto);
+
+		console.log(dto);
+
+		return this.returnUserData(user);
+	}
+
+	async getNewTokens(refreshToken: string) {
+		const result = await this.jwt.verifyAsync(refreshToken);
+
+		if (!result) {
+			throw new UnauthorizedException("Пользователь не авторизован");
+		}
+
+		const user = await this.prisma.user.findUnique({
+			where: {
+				id: result.id,
+			},
+		});
+
+		return this.returnUserData(user);
 	}
 
 	private async issueTokens(userId: string) {
@@ -62,10 +86,35 @@ export class AuthService {
 		return { accessToken, refreshToken };
 	}
 
-	private returnUserFields(user: User) {
+	private async returnUserData(user: User) {
+		const tokens = await this.issueTokens(user.id);
+
 		return {
-			id: user.id,
-			email: user.email,
+			user: {
+				id: user.id,
+				email: user.email,
+			},
+			...tokens,
 		};
+	}
+
+	private async validateUser(dto: AuthDto) {
+		const user = await this.prisma.user.findUnique({
+			where: {
+				email: dto.email,
+			},
+		});
+
+		if (!user) {
+			throw new NotFoundException("Пользователь не найден");
+		}
+
+		const isValid = await verify(user.password, dto.password);
+
+		if (!isValid) {
+			throw new UnauthorizedException("Неверный пароль");
+		}
+
+		return user;
 	}
 }
