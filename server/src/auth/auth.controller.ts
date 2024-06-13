@@ -2,6 +2,8 @@ import { Body, Controller, HttpCode, Post, UsePipes, ValidationPipe } from "@nes
 import { AuthService } from "./auth.service";
 import { AuthDto } from "./dto/auth.dto";
 import { RefreshTokensDto } from "./dto/refresh-tokens.dto";
+import { Auth } from "./decorators/auth.decorator";
+import { Role } from "@prisma/client";
 
 @Controller("auth")
 export class AuthController {
@@ -24,6 +26,7 @@ export class AuthController {
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
 	@Post("new_tokens")
+  @Auth(Role.User)
 	getNewTokens(@Body() dto: RefreshTokensDto) {
 		return this.authService.getNewTokens(dto.refreshToken);
 	}
