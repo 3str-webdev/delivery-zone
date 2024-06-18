@@ -8,10 +8,10 @@ export class ProductDto {
 	description: string;
 
 	@IsString()
-	slug: string;
+	image: string;
 
 	@IsString()
-	image: string;
+	categoryId: string;
 
 	@IsNumber()
 	@IsPositive({
