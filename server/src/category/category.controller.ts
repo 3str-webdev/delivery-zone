@@ -9,22 +9,26 @@ export class CategoryController {
 	constructor(private readonly categoryService: CategoryService) {}
 
 	@Get()
+  @Auth()
 	async getAll() {
 		return this.categoryService.getAll();
 	}
 
   @Get("by-id/:id")
+  @Auth()
   async getById(@Param("id") id: string) {
     return this.categoryService.getById(id)
   }
 
   @Get("by-slug/:slug")
+  @Auth()
   async getBySlug(@Param("slug") slug: string) {
     return this.categoryService.getBySlug(slug)
   }
 
   @HttpCode(200)
   @Post()
+  @Auth()
   async create() {
     return this.categoryService.create()
   }
@@ -32,12 +36,14 @@ export class CategoryController {
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Put(":id")
+  @Auth()
   async update(@Param("id") id: string, @Body() dto: CategoryDto) {
     return this.categoryService.update(id, dto)
   }
 
   @HttpCode(200)
   @Delete(":id")
+  @Auth()
   async delete(@Param("id") id: string) {
     return this.categoryService.delete(id)
   }
