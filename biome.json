@@ -10,5 +10,8 @@
     "parser": {
       "unsafeParameterDecoratorsEnabled": true
     }
+  },
+  "organizeImports": {
+    "enabled": true
   }
 }
