@@ -5,6 +5,10 @@ import { AuthSchema, type AuthSchemaType } from "./auth-validation-schema";
 export const useAuthForm = () => {
 	const { handleSubmit, reset, control } = useForm<AuthSchemaType>({
 		mode: "onBlur",
+		defaultValues: {
+			email: "",
+			password: "",
+		},
 		resolver: valibotResolver(AuthSchema),
 	});
 
