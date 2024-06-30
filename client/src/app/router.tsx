@@ -5,8 +5,8 @@ import { Route, Switch } from "wouter";
 export const AppRouter = () => {
 	return (
 		<Switch>
-			<Route path="/" component={HomePage} />
 			<Route path="/auth" component={AuthPage} />
+			<Route path="/" component={HomePage} />
 		</Switch>
 	);
 };
