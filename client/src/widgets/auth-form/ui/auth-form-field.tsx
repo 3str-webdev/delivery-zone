@@ -23,7 +23,7 @@ export const AuthFormField = <T extends FieldValues>({
 					onValueChange={onChange}
 					onBlur={onBlur}
 					isInvalid={Boolean(error)}
-					errorMessage={error ? "Error" : ""}
+					errorMessage={error?.message}
 				/>
 			)}
 		/>

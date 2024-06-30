@@ -1,10 +1,13 @@
 import { GlobalProviders } from "./global-providers";
+import { Layout } from "./layout";
 import { AppRouter } from "./router";
 
 export const App = () => {
 	return (
 		<GlobalProviders>
-			<AppRouter />
+			<Layout>
+				<AppRouter />
+			</Layout>
 		</GlobalProviders>
 	);
 };
