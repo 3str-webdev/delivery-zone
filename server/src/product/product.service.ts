@@ -80,7 +80,7 @@ export class ProductService {
 				description: "",
 				slug: "",
 				image: "",
-				price: 0,
+				price: 1,
 			},
 		});
 	}

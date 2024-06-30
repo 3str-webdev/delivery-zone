@@ -7,5 +7,9 @@ meta {
 post {
   url: {{baseUrl}}/categories
   body: none
-  auth: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminAccessToken}}
 }

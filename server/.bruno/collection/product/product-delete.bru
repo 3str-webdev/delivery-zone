@@ -1,0 +1,25 @@
+meta {
+  name: product-delete
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{baseUrl}}/products/clxkcdc8k0002tzto7qff3lb8
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminAccessToken}}
+}
+
+body:json {
+  {
+    "name": "some produst",
+    "description": "1234",
+    "price": 1,
+    "image": "",
+    "categoryId": "clxkca7vo0001tztojorysxkh"
+  }
+}

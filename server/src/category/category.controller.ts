@@ -8,26 +8,22 @@ import { Role } from "@prisma/client";
 export class CategoryController {
 	constructor(private readonly categoryService: CategoryService) {}
 
-  @Auth(Role.User)
 	@Get()
 	async getAll() {
 		return this.categoryService.getAll();
 	}
 
-  @Auth(Role.User)
   @Get("by-id/:id")
   async getById(@Param("id") id: string) {
     return this.categoryService.getById(id)
   }
 
-  @Auth(Role.User)
   @Get("by-slug/:slug")
   async getBySlug(@Param("slug") slug: string) {
     return this.categoryService.getBySlug(slug)
   }
 
   @HttpCode(200)
-  @Auth(Role.Admin)
   @Post()
   async create() {
     return this.categoryService.create()
@@ -35,14 +31,12 @@ export class CategoryController {
 
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
-  @Auth(Role.Admin)
   @Put(":id")
   async update(@Param("id") id: string, @Body() dto: CategoryDto) {
     return this.categoryService.update(id, dto)
   }
 
   @HttpCode(200)
-  @Auth(Role.Admin)
   @Delete(":id")
   async delete(@Param("id") id: string) {
     return this.categoryService.delete(id)
